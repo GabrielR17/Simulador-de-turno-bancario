@@ -187,6 +187,51 @@
         .fila-card .fila-conteo  { font-size: 32px; font-weight: bold; color: #003087; line-height: 1.2; margin: 6px 0; }
         .fila-card .fila-label   { font-size: 11px; color: #aaa; }
 
+        .fila-siguiente {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0 8px;
+        }
+
+        .turno-badge {
+            background: #003087;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+
+        .cliente-nombre {
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .btn-atender {
+            width: 100%;
+            padding: 8px;
+            background: #16a34a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .btn-atender:hover { background: #15803d; }
+
+        .fila-vacia {
+            font-size: 11px;
+            color: #bbb;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
         .btn-reset {
             display: block;
             margin: 20px auto 0;
@@ -286,21 +331,29 @@
     {{-- ===== ESTADO DE FILAS ===== --}}
     <p class="filas-titulo">Estado actual de las filas</p>
     <div class="filas-estado">
+
+        @foreach(['caja' => ['emoji' => '🏧', 'label' => 'Caja'], 'servicio' => ['emoji' => '💬', 'label' => 'Servicio al Cliente'], 'creditos' => ['emoji' => '💳', 'label' => 'Créditos']] as $key => $info)
         <div class="fila-card">
-            <div class="fila-nombre">🏧 Caja</div>
-            <div class="fila-conteo">{{ count($filas['caja'] ?? []) }}</div>
+            <div class="fila-nombre">{{ $info['emoji'] }} {{ $info['label'] }}</div>
+            <div class="fila-conteo">{{ count($filas[$key] ?? []) }}</div>
             <div class="fila-label">en espera</div>
+
+            @if(!empty($filas[$key]))
+                <div class="fila-siguiente">
+                    <span class="turno-badge">{{ $filas[$key][0]['turno'] }}</span>
+                    <span class="cliente-nombre">{{ explode(' ', $filas[$key][0]['nombre'])[0] }}</span>
+                </div>
+                <form action="{{ route('turno.atender') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="tramite" value="{{ $key }}">
+                    <button type="submit" class="btn-atender">✅ Atender</button>
+                </form>
+            @else
+                <div class="fila-vacia">Sin clientes</div>
+            @endif
         </div>
-        <div class="fila-card">
-            <div class="fila-nombre">💬 Servicio</div>
-            <div class="fila-conteo">{{ count($filas['servicio'] ?? []) }}</div>
-            <div class="fila-label">en espera</div>
-        </div>
-        <div class="fila-card">
-            <div class="fila-nombre">💳 Créditos</div>
-            <div class="fila-conteo">{{ count($filas['creditos'] ?? []) }}</div>
-            <div class="fila-label">en espera</div>
-        </div>
+        @endforeach
+
     </div>
 
     <form action="{{ route('turno.reset') }}" method="GET">

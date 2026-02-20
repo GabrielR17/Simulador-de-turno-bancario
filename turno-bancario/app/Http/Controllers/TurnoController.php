@@ -58,4 +58,16 @@ class TurnoController extends Controller
         session()->forget('turnos');
         return redirect('/turno');
     }
+    public function atender(Request $request)
+{
+    $tramite = $request->input('tramite');
+    $filas   = session('turnos', ['caja' => [], 'servicio' => [], 'creditos' => []]);
+
+    if (!empty($filas[$tramite])) {
+        array_shift($filas[$tramite]);
+        session(['turnos' => $filas]);
+    }
+
+    return redirect('/turno');
+}
 }
