@@ -1,13 +1,10 @@
 # Simulador-de-turno-bancario
 Ejercicio en la clase 20/02/2026
 
----
 
 ## Descripción General
 
 Sistema web de gestión de turnos bancarios desarrollado en Laravel. Permite a los usuarios registrarse en una fila virtual seleccionando su tipo de trámite, recibir un número de turno asignado automáticamente y visualizar cuántas personas están en espera antes que ellos.
-
----
 
 ## Usuarios del Sistema
 
@@ -17,7 +14,6 @@ El sistema contempla dos tipos de actores:
 
 **Sistema interno:** Laravel actúa como backend gestionando la lógica de asignación de turnos, almacenamiento en sesión y conteo de espera.
 
----
 
 ## Tipos de Trámite
 
@@ -31,7 +27,6 @@ El cliente puede seleccionar uno de tres servicios disponibles, cada uno con su 
 
 Cada fila es independiente. Un turno C-003 y un S-003 coexisten sin conflicto.
 
----
 
 ## Funcionalidades del Sistema
 
@@ -51,7 +46,6 @@ Después de registrarse, el cliente ve:
 ### Estado de las filas *(vista informativa)*
 Una sección que muestra el resumen actual de las tres filas: cuántas personas están esperando en Caja, Servicio al Cliente y Créditos.
 
----
 
 ## Interfaz de Usuario
 
@@ -71,7 +65,6 @@ La aplicación tiene **dos vistas principales:**
 
 **Estilo visual:** Interfaz limpia, colores corporativos tipo bancario (azul/blanco), diseño responsivo con CSS propio sin frameworks externos.
 
----
 
 ## Lógica del Programa
 
@@ -126,7 +119,6 @@ resources/views/
 | POST | `/turno` | `TurnoController@registrar` | Procesa y asigna turno |
 | GET | `/turno/reset` | `TurnoController@reset` | Limpia todos los turnos |
 
----
 
 ## Restricciones y Consideraciones
 
@@ -136,7 +128,6 @@ resources/views/
 - **La sesión se reinicia** si se cierra el navegador o se ejecuta `/turno/reset`
 - Se aplica la misma configuración de proxy y `.env` usada en Codespaces (ver guía de referencia)
 
----
 
 ## Tecnologías Utilizadas
 
@@ -145,7 +136,3 @@ resources/views/
 - Session de Laravel (sin base de datos)
 - CSS propio
 - GitHub Codespaces
-
----
-
-*Desarrollado como ejercicio académico — Universidad Tecnológica de Santander (UTS)*
